@@ -182,7 +182,7 @@
     <!-- Start Footer -->
     <footer class="text-white text-center pb-5" style="background-color: #3c6255">
       <div>
-        <p style="color: #eae7b1">Copyright 2022 © <a class="fw-bold" style="color: #eae7b1; text-decoration: none" href="https://instagram.com/mirfaanprtm/">Aufa Iqbal Rizally</a></p>
+        <p style="color: #eae7b1">Copyright 2026 © <a class="fw-bold" style="color: #eae7b1; text-decoration: none" href="https://instagram.com/mirfaanprtm/">Aufa Iqbal Rizally</a></p>
       </div>
       <div class="flex">
         <a href="https://www.instagram.com/aufarizally?igsh=MWFuejg2NHJvZmdzZw=="><img class="img-1" src="assets/images/instagram.svg" width="30" alt="Instagram" /></a>
@@ -200,9 +200,7 @@
     </script>
 
     <script>
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbydIo5ELfS9iUYKM-ADMALZg-ItBGx4nqlwyeBY3OB0KhjqjXuZ8doHIK_fBKK46Z_s/exec';
       const form = document.forms['contact-form'];
-
       const buttonSend = document.querySelector('.btn-send');
       const buttonLoading = document.querySelector('.btn-loading');
       const myAlert = document.querySelector('.my-alert');
@@ -213,24 +211,31 @@
       const description = document.getElementById('message');
 
       form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        buttonLoading.classList.toggle('d-none');
-        buttonSend.classList.toggle('d-none');
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-          .then((response) => {
-            buttonLoading.classList.toggle('d-none');
-            buttonSend.classList.toggle('d-none');
-            if (fullName.value == '' && email.value == '' && description.value == '') {
-              console.log('Fail!', response);
-              myAlert2.classList.toggle('d-none');
-            } else {
-              console.log('Success!', response);
-              myAlert.classList.toggle('d-none');
-            }
-            form.reset();
-          })
-          .catch((error) => console.error('Error!', error.message));
-      });
-    </script>
+        e.preventDefault(); // Menahan refresh halaman
+
+        // Sembunyikan alert yang mungkin masih muncul dari klik sebelumnya
+        myAlert.classList.add('d-none');
+        myAlert2.classList.add('d-none');
+
+        // VALIDASI DEMO: Jika ada kolom yang kosong
+        if (fullName.value.trim() == '' || email.value.trim() == '' || description.value.trim() == '') {
+          myAlert2.classList.remove('d-none'); // Munculkan alert GAGAL/KOSONG
+          return; // Stop proses simulator di sini
+        }
+
+        // SIMULASI PROSES LOADING (Seolah-olah mengirim data)
+        buttonLoading.classList.remove('d-none'); // Munculkan animasi loading
+        buttonSend.classList.add('d-none');       // Sembunyikan tombol Send
+
+        // Set waktu tunggu buatan selama 1.5 detik agar terlihat realistis
+        setTimeout(() => {
+          buttonLoading.classList.add('d-none');  // Sembunyikan loading
+          buttonSend.classList.remove('d-none');  // Munculkan kembali tombol Send
+          
+          myAlert.classList.remove('d-none');     // Munculkan notifikasi SUKSES (Hijau)
+      form.reset();                           // Kosongkan kembali form isi ketikannya
+    }, 1500); 
+  });
+</script>
   </body>
 </html>
